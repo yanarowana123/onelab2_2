@@ -1,0 +1,107 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/sum/book/{bookID}": {
+            "get": {
+                "security": [
+                    {
+                        "ServerKeyAuth": []
+                    }
+                ],
+                "description": "Transaction",
+                "summary": "Transaction",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "bookID uuid",
+                        "name": "bookID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "book sum",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    "400": {
+                        "description": "validation error"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                }
+            }
+        },
+        "/transaction": {
+            "post": {
+                "security": [
+                    {
+                        "ServerKeyAuth": []
+                    }
+                ],
+                "description": "Transaction",
+                "summary": "Transaction",
+                "parameters": [
+                    {
+                        "description": "body",
+                        "name": "transaction",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_yanarowana123_onelab2_1_internal_models.CreateTransactionRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "validation error"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "github_com_yanarowana123_onelab2_1_internal_models.CreateTransactionRequest": {
+            "type": "object",
+            "required": [
+                "book_id",
+                "checkout_id",
+                "money_amount",
+                "user_id"
+            ],
+            "properties": {
+                "book_id": {
+                    "type": "string"
+                },
+                "checkout_id": {
+                    "type": "string"
+                },
+                "money_amount": {
+                    "type": "number"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "ServerKeyAuth": {
+            "type": "apiKey",
+            "name": "Secret-Key",
+            "in": "header"
+        }
+    }
+}

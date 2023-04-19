@@ -1,0 +1,67 @@
+definitions:
+  github_com_yanarowana123_onelab2_1_internal_models.CreateTransactionRequest:
+    properties:
+      book_id:
+        type: string
+      checkout_id:
+        type: string
+      money_amount:
+        type: number
+      user_id:
+        type: string
+    required:
+    - book_id
+    - checkout_id
+    - money_amount
+    - user_id
+    type: object
+info:
+  contact: {}
+paths:
+  /sum/book/{bookID}:
+    get:
+      description: Transaction
+      parameters:
+      - description: bookID uuid
+        in: path
+        name: bookID
+        required: true
+        type: string
+      responses:
+        "200":
+          description: book sum
+          schema:
+            type: number
+        "400":
+          description: validation error
+        "500":
+          description: internal server error
+      security:
+      - ServerKeyAuth: []
+      summary: Transaction
+  /transaction:
+    post:
+      description: Transaction
+      parameters:
+      - description: body
+        in: body
+        name: transaction
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_yanarowana123_onelab2_1_internal_models.CreateTransactionRequest'
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: validation error
+        "500":
+          description: internal server error
+      security:
+      - ServerKeyAuth: []
+      summary: Transaction
+securityDefinitions:
+  ServerKeyAuth:
+    in: header
+    name: Secret-Key
+    type: apiKey
+swagger: "2.0"

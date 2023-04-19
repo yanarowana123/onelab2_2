@@ -2,24 +2,26 @@ package repositories
 
 import (
 	"context"
+	"github.com/google/uuid"
 	"github.com/yanarowana123/onelab2_1/configs"
 	"github.com/yanarowana123/onelab2_1/internal/models"
 	"github.com/yanarowana123/onelab2_1/internal/repositories/pgsql"
 )
 
-type IUserTransactionRepository interface {
-	CreateTransaction(ctx context.Context, userTransaction models.CreateUserTransactionRequest) error
+type ITransactionRepository interface {
+	Create(ctx context.Context, userTransaction models.CreateTransactionRequest) error
+	GetSumByBookID(ctx context.Context, bookID uuid.UUID) (float64, error)
 }
 
 type Manager struct {
-	UserTransaction IUserTransactionRepository
+	Transaction ITransactionRepository
 }
 
 func NewManager(config configs.Config) *Manager {
 	connection := pgsql.ConnectDB(config.PgSqlDSN)
-	userTransactionRepository := pgsql.NewUserTransactionRepository(connection)
+	transactionRepository := pgsql.NewTransactionRepository(connection)
 
 	return &Manager{
-		UserTransaction: userTransactionRepository,
+		Transaction: transactionRepository,
 	}
 }

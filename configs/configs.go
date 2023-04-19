@@ -9,6 +9,7 @@ import (
 type Config struct {
 	PgSqlDSN      string
 	WebServerPort string
+	SecretKey     string
 }
 
 func New() (*Config, error) {
@@ -49,8 +50,14 @@ func New() (*Config, error) {
 		return nil, errors.New("please specify WEB_SERVER_PORT variable in env")
 	}
 
+	secretKey := os.Getenv("SECRET_KEY")
+	if len(secretKey) == 0 {
+		return nil, errors.New("please specify SECRET_KEY variable in env")
+	}
+
 	return &Config{
 		PgSqlDSN:      pgSqlDSN,
 		WebServerPort: webServerPort,
+		SecretKey:     secretKey,
 	}, nil
 }
